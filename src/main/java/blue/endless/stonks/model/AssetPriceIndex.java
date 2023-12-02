@@ -27,6 +27,7 @@ public interface AssetPriceIndex {
 	 * @throws InvestmentNotFoundException
 	 */
 	public default double getInvestmentValue(Asset asset) throws InvestmentNotFoundException {
+		if (asset.getCategory() == AssetType.CASH) return 1.0d;
 		return getInvestmentValue(asset.getSymbol());
 	}
 }

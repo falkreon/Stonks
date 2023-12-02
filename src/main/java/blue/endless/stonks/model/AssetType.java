@@ -2,6 +2,11 @@ package blue.endless.stonks.model;
 
 public enum AssetType {
 	/**
+	 * Represents uninvested cash in a portfolio. One "share" of cash is always worth one dollar.
+	 */
+	CASH("Cash", true),
+	
+	/**
 	 * A regular stock, which can only be invested in in whole-share increments.
 	 */
 	STOCK("Stock", false),
