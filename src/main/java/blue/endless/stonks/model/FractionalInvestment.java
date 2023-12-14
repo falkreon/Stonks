@@ -52,4 +52,9 @@ public class FractionalInvestment extends Investment {
 	public void setSharesHeld(double value) {
 		sharesHeld = value;
 	}
+	
+	@Override
+	public String toString() {
+		return getAsset().getSymbol() + ": "+this.getSharesHeld() + " shares, bought at $"+this.getPurchasePricePerShare()+"/share";
+	}
 }

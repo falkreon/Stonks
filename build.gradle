@@ -1,5 +1,11 @@
-apply plugin: "java";
-apply plugin: "eclipse";
+plugins {
+	id "java";
+	id "application";
+	id "eclipse";
+}
+
+//apply plugin: "java";
+//apply plugin: "eclipse";
 
 group = "blue.endless.stonks";
 archivesBaseName = "Stonks";

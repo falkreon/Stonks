@@ -54,4 +54,9 @@ public class NonFractionalInvestment extends Investment {
 	public void setSharesHeld(int count) {
 		this.sharesHeld = count;
 	}
+	
+	@Override
+	public String toString() {
+		return getAsset().getSymbol() + ": "+this.getSharesHeld() + " shares, bought at $"+this.getPurchasePricePerShare()+"/share";
+	}
 }

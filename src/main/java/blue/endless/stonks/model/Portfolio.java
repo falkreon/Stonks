@@ -48,6 +48,23 @@ public class Portfolio implements Iterable<Investment> {
 	}
 	
 	/**
+	 * Gets the Investment at the specified index
+	 * @param index the index of the Investment to get
+	 * @return the Investment at the specified index
+	 */
+	public Investment get(int index) {
+		return investments.get(index);
+	}
+	
+	/**
+	 * Adds an Investment to this Portfolio
+	 * @param investment the Investment to add
+	 */
+	public void add(Investment investment) {
+		investments.add(investment);
+	}
+	
+	/**
 	 * Gets the total amount of money spent in this portfolio on all the investments in the specified Asset.
 	 * @param asset the Asset to query
 	 * @return the total cost spent on all held shares of that Asset
