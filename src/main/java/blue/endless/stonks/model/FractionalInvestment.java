@@ -1,5 +1,9 @@
 package blue.endless.stonks.model;
 
+import blue.endless.jankson.JsonObject;
+import blue.endless.jankson.JsonPrimitive;
+import blue.endless.jankson.annotation.Serializer;
+
 /**
  * Represents an investment in an Asset which can have fractional shares, like a {@link AssetType#MUTUAL_FUND MUTUAL_FUND}
  * or a stock slice. {@link AssetType#STOCK STOCK}s should use {@link NonFractionalInvestment}.
@@ -15,6 +19,7 @@ public class FractionalInvestment extends Investment {
 	 */
 	public FractionalInvestment(FractionalAsset asset, double sharePrice, double sharesHeld) {
 		super(asset, sharePrice);
+		this.sharesHeld = sharesHeld;
 	}
 	
 	/**
@@ -56,5 +61,18 @@ public class FractionalInvestment extends Investment {
 	@Override
 	public String toString() {
 		return getAsset().getSymbol() + ": "+this.getSharesHeld() + " shares, bought at $"+this.getPurchasePricePerShare()+"/share";
+	}
+	
+	@Serializer
+	@Override
+	public JsonObject toJson() {
+		JsonObject result = super.toJson();
+		result.put("shares", JsonPrimitive.of(sharesHeld));
+		return result;
+	}
+	
+	@Override
+	public String toSaveText() {
+		return super.toSaveText() + "\t" + sharesHeld;
 	}
 }

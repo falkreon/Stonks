@@ -1,5 +1,9 @@
 package blue.endless.stonks.model;
 
+import blue.endless.jankson.JsonObject;
+import blue.endless.jankson.JsonPrimitive;
+import blue.endless.jankson.annotation.Serializer;
+
 /**
  * Represents an investment in an Asset which can only be held in whole shares. The subject of this investment MUST be
  * a {@link AssetType#STOCK STOCK}; Mutual funds and "stock slices" require a {@link FractionalInvestment}.
@@ -58,5 +62,18 @@ public class NonFractionalInvestment extends Investment {
 	@Override
 	public String toString() {
 		return getAsset().getSymbol() + ": "+this.getSharesHeld() + " shares, bought at $"+this.getPurchasePricePerShare()+"/share";
+	}
+	
+	@Serializer
+	@Override
+	public JsonObject toJson() {
+		JsonObject result = super.toJson();
+		result.put("shares", JsonPrimitive.of((long) sharesHeld));
+		return result;
+	}
+	
+	@Override
+	public String toSaveText() {
+		return super.toSaveText() + "\t" + sharesHeld;
 	}
 }

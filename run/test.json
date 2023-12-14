@@ -1,0 +1,22 @@
+{
+	"investments": [
+		{
+			"asset-type": "stock",
+			"asset": "MSFT",
+			"price": 368.8,
+			"shares": 20
+		},
+		{
+			"asset-type": "stock",
+			"asset": "APPL",
+			"price": 287.9,
+			"shares": 100
+		},
+		{
+			"asset-type": "mutual_fund",
+			"asset": "VSMPX",
+			"price": 183.2,
+			"shares": 14.6
+		}
+	]
+}

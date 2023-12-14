@@ -1,5 +1,10 @@
 package blue.endless.stonks.model;
 
+import java.util.Locale;
+
+import blue.endless.jankson.JsonObject;
+import blue.endless.jankson.JsonPrimitive;
+
 /**
  * Represents a held amount of a stock exchange Asset.
  */
@@ -40,4 +45,16 @@ public abstract class Investment {
 	 * @return the total value of this investment at that price
 	 */
 	public abstract double getTotalValueAtPrice(double pricePerShare);
+	
+	public JsonObject toJson() {
+		JsonObject result = new JsonObject();
+		result.put("asset-type", JsonPrimitive.of(getAsset().getCategory().name().toLowerCase(Locale.ROOT)));
+		result.put("asset", JsonPrimitive.of(getAsset().getSymbol()));
+		result.put("price", JsonPrimitive.of(getPurchasePricePerShare()));
+		return result;
+	}
+	
+	public String toSaveText() {
+		return getAsset().getCategory() + "\t" + getAsset().getSymbol() + "\t" + purchasePricePerShare;
+	}
 }

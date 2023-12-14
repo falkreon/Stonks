@@ -39,7 +39,7 @@ public class AssetPerformance {
 		AssetPerformance result = new AssetPerformance();
 		
 		result.median = (r.nextDouble() * 150d) + 200d;
-		double amp = r.nextDouble() * 200d;
+		double amp = r.nextDouble() * 100d;
 		result.harmonics.add(new Harmonic(r.nextDouble(), 1d, amp));
 		amp /= 2;
 		result.harmonics.add(new Harmonic(r.nextDouble(), 3.3d, amp));
