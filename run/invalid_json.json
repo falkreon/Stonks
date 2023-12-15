@@ -1,7 +1,11 @@
 {
+	//One of these investments is missing the required key "asset"
+	//Jankson is made to preserve as much data as it's able, and loads
+	//the other 3 even though there's a missing end-quote and comma
+	//for MSFT's asset type
 	"investments": [
 		{
-			"asset-type": "stock",
+			"asset-type": "stock
 			"asset": "MSFT",
 			"price": 368.8,
 			"shares": 20
@@ -14,14 +18,12 @@
 		},
 		{
 			"asset-type": "mutual_fund",
-			"asset": "VSMPX",
 			"price": 183.2,
 			"shares": 14.6
 		},
 		{
 			"asset-type": "mutual_fund",
 			"asset": "VIIIX",
-			"price": 128.64,
 			"shares": 32.1
 		}
 	]

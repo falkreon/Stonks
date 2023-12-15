@@ -1,0 +1,88 @@
+{
+	"year": 0.0,
+	"simulations": {
+		"MSFT": {
+			"median": 258.7963200764226,
+			"harmonics": [
+				{
+					"phase": 0.7618122207165404,
+					"period": 1.0,
+					"amplitude": 46.449574439724095
+				},
+				{
+					"phase": 0.9472054096749991,
+					"period": 3.3,
+					"amplitude": 23.224787219862048
+				},
+				{
+					"phase": 0.5509863655495792,
+					"period": 5.5,
+					"amplitude": 11.612393609931024
+				}
+			]
+		},
+		"APPL": {
+			"median": 324.8260197015604,
+			"harmonics": [
+				{
+					"phase": 0.8190249879521756,
+					"period": 1.0,
+					"amplitude": 60.527220375341805
+				},
+				{
+					"phase": 0.14395603285928404,
+					"period": 3.3,
+					"amplitude": 30.263610187670903
+				},
+				{
+					"phase": 0.26397527542890353,
+					"period": 5.5,
+					"amplitude": 15.131805093835451
+				}
+			]
+		},
+		"VSMPX": {
+			"median": 231.2642646200411,
+			"harmonics": [
+				{
+					"phase": 0.3448656783658972,
+					"period": 1.0,
+					"amplitude": 61.156093646748054
+				},
+				{
+					"phase": 0.7279514107195801,
+					"period": 3.3,
+					"amplitude": 30.578046823374027
+				},
+				{
+					"phase": 0.13431448768328713,
+					"period": 5.5,
+					"amplitude": 15.289023411687014
+				}
+			]
+		}
+	},
+	"assets": [
+		{
+			"symbol": "MSFT",
+			"asset-type": "stock",
+			"dividend": {
+				"percentage": 0.75,
+				"type": "cash"
+			}
+		},
+		{
+			"symbol": "APPL",
+			"asset-type": "stock",
+			"dividend": null
+		},
+		{
+			"symbol": "VSMPX",
+			"asset-type": "mutual_fund",
+			"dividend": {
+				"percentage": 0.73,
+				"type": "cash"
+			}
+		}
+	]
+}
