@@ -3,6 +3,9 @@ package blue.endless.stonks.sim;
 import java.util.ArrayList;
 import java.util.Random;
 
+import blue.endless.jankson.JsonObject;
+import blue.endless.jankson.annotation.Deserializer;
+
 public class AssetPerformance {
 	public static record Harmonic(
 			/** A number between 0 and 1 representing the offset into the year for the sine wave */
@@ -16,6 +19,14 @@ public class AssetPerformance {
 			double theta = 2d * Math.PI * (yearsSinceEpoch * period + phase);
 			
 			return Math.sin(theta) * amplitude;
+		}
+		
+		@Deserializer
+		public static Harmonic fromJson(JsonObject obj) {
+			double phase = obj.getDouble("phase", 0);
+			double period = obj.getDouble("period", 1);
+			double amplitude = obj.getDouble("amplitude", 50d);
+			return new Harmonic(phase, period, amplitude);
 		}
 	}
 	
@@ -47,5 +58,10 @@ public class AssetPerformance {
 		result.harmonics.add(new Harmonic(r.nextDouble(), 5.5d, amp));
 		
 		return result;
+	}
+	
+	@Override
+	public String toString() {
+		return ""+harmonics.size()+" harmonics, median "+median;
 	}
 }

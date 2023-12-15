@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import blue.endless.stonks.model.AssetPriceIndex;
 import blue.endless.stonks.model.Investment;
 
 public class InvestmentView extends JPanel {
@@ -27,7 +28,8 @@ public class InvestmentView extends JPanel {
 	private final JLabel pricePerShareLabel = fixSize(new JLabel(), 70, 64);
 	private final JLabel equalsLabel = fixSize(new JLabel("="), 32, 64);
 	private final JLabel totalPriceLabel = fixSize(new JLabel(), 70, 64);
-	private final IconActionButton sellButton = new IconActionButton(Assets.SELL_IMAGE, "Sell");
+	private final JLabel currentPriceLabel = fixSize(new JLabel("??"), 80, 64);
+	//private final IconActionButton sellButton = new IconActionButton(Assets.SELL_IMAGE, "Sell");
 	private Investment investment;
 	
 	public InvestmentView(Investment investment) {
@@ -39,8 +41,6 @@ public class InvestmentView extends JPanel {
 		this.setMinimumSize(new Dimension(500, 32));
 		this.setMaximumSize(new Dimension(500, 32));
 		this.setPreferredSize(new Dimension(500, 32));
-		
-		//this.setBackground(new Color(200, 200, 200));
 		
 		Font mono = Font.decode("Monospaced-PLAIN-12");
 		
@@ -58,8 +58,11 @@ public class InvestmentView extends JPanel {
 		totalPriceLabel.setFont(mono);
 		totalPriceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		this.add(totalPriceLabel);
+		currentPriceLabel.setFont(mono);
+		currentPriceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		this.add(currentPriceLabel);
 		this.add(Box.createHorizontalGlue());
-		this.add(sellButton);
+		//this.add(sellButton);
 	}
 
 	private <T extends JComponent> T fixSize(T component, int width, int height) {
@@ -87,9 +90,18 @@ public class InvestmentView extends JPanel {
 	public Investment getInvestment() {
 		return investment;
 	}
-	
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
+
+	public void updatePrice(AssetPriceIndex marketIndex) {
+		try {
+			double price = marketIndex.getInvestmentValue(this.investment.getAsset());
+			double value = investment.getTotalValueAtPrice(price);
+			Color c = (value >= investment.getTotalPurchasePrice()) ?
+					Color.GREEN : Color.RED;
+			currentPriceLabel.setForeground(c);
+			currentPriceLabel.setText(String.format("$%8.2f", value));
+		} catch (Exception ex) {
+			currentPriceLabel.setText("--");
+		}
+		this.repaint();
 	}
 }

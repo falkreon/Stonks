@@ -1,9 +1,16 @@
 package blue.endless.stonks.model;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
+
+import blue.endless.jankson.JsonNull;
+import blue.endless.jankson.JsonObject;
+import blue.endless.jankson.JsonPrimitive;
+import blue.endless.jankson.annotation.Deserializer;
+import blue.endless.jankson.annotation.Serializer;
 
 /**
  * Represents an investment asset. Assets by themselves have no price - the price floats on the market. They do have
@@ -25,13 +32,8 @@ public abstract class Asset {
 	 * @param dividend the dividend this stock awards
 	 * @see #Asset(String, AssetType)
 	 */
-	public Asset(String symbol, @NotNull AssetType category, @NotNull Dividend dividend) {
-		Objects.requireNonNull(category);
-		Objects.requireNonNull(dividend);
-		
-		this.symbol = symbol;
-		this.category = category;
-		this.dividend = Optional.of(dividend);
+	public Asset(String symbol, AssetType category, Dividend dividend) {
+		this(symbol, category, Optional.of(dividend));
 	}
 	
 	/**
@@ -40,12 +42,18 @@ public abstract class Asset {
 	 * @param category whether this is a stock or a mutual fund
 	 * @see #Asset(String, AssetType, Dividend)
 	 */
-	public Asset(String symbol, @NotNull AssetType category) {
+	public Asset(String symbol, AssetType category) {
+		this(symbol, category, Optional.empty());
+	}
+	
+	public Asset(String symbol, AssetType category, Optional<Dividend> dividend) {
+		Objects.requireNonNull(symbol);
 		Objects.requireNonNull(category);
+		Objects.requireNonNull(dividend);
 		
 		this.symbol = symbol;
 		this.category = category;
-		this.dividend = Optional.empty();
+		this.dividend = dividend;
 	}
 	
 	/**
@@ -82,5 +90,47 @@ public abstract class Asset {
 		return other != null &&
 			other instanceof Asset otherAsset &&
 			otherAsset.symbol.equals(this.symbol);
+	}
+	
+	@Serializer
+	public JsonObject toJson() {
+		JsonObject result = new JsonObject();
+		result.put("symbol", JsonPrimitive.of(symbol));
+		result.put("asset-type", JsonPrimitive.of(category.name().toLowerCase(Locale.ROOT)));
+		if (dividend.isPresent()) {
+			result.put("dividend", dividend.get().toJson());
+		} else {
+			result.put("dividend", JsonNull.INSTANCE);
+		}
+		
+		return result;
+	}
+	
+	@Deserializer
+	public static Asset fromJson(JsonObject obj) {
+		//I'm nervous about the Optional here, so let's unpack manually
+		
+		String symbol = obj.get(String.class, "symbol");
+		AssetType type = AssetType.valueOf(obj.get(String.class, "asset-type").toUpperCase());
+		
+		Objects.requireNonNull(symbol);
+		Objects.requireNonNull(type);
+		
+		Optional<Dividend> dividend = Optional.empty();
+		if (obj.containsKey("dividend") && (obj.get("dividend") instanceof JsonObject div)) {
+			dividend = Optional.of(Dividend.fromJson(div));
+		}
+		
+		return (type.allowsFractionalOwnership()) ?
+			new FractionalAsset(symbol, type, dividend) :
+			new NonFractionalAsset(symbol, type, dividend);
+	}
+	
+	public static Asset create(String symbol, AssetType type) {
+		if (type.allowsFractionalOwnership()) {
+			return new FractionalAsset(symbol, type);
+		} else {
+			return new NonFractionalAsset(symbol, type);
+		}
 	}
 }

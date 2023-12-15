@@ -75,4 +75,17 @@ public class FractionalInvestment extends Investment {
 	public String toSaveText() {
 		return super.toSaveText() + "\t" + sharesHeld;
 	}
+	
+	public static FractionalInvestment fromJson(JsonObject obj, FractionalAsset asset, double price) {
+		double shares = obj.getDouble("shares", 1d); //This key can be optional
+		return new FractionalInvestment(asset, price, shares);
+	}
+	
+	public static FractionalInvestment fromSaveText(String s, FractionalAsset asset, double price) {
+		String[] parts = s.split("\t");
+		if (parts.length < 4) throw new IllegalArgumentException("Missing share count");
+		double shares = Double.parseDouble(parts[3]);
+		
+		return new FractionalInvestment(asset, price, shares);
+	}
 }

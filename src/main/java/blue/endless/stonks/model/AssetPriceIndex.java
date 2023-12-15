@@ -1,16 +1,11 @@
 package blue.endless.stonks.model;
 
-import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * Represents a stock exchange's price index, the current prices of a stock as of some closing date.
  */
 public interface AssetPriceIndex {
-	/**
-	 * Gets the closing date which the prices were measured at.
-	 * @return The closing date for prices listed in this Index
-	 */
-	public LocalDate getClosingDate();
 	
 	/**
 	 * Gets the value recorded for the provided asset symbol.
@@ -27,7 +22,12 @@ public interface AssetPriceIndex {
 	 * @throws InvestmentNotFoundException
 	 */
 	public default double getInvestmentValue(Asset asset) throws InvestmentNotFoundException {
-		if (asset.getCategory() == AssetType.CASH) return 1.0d;
 		return getInvestmentValue(asset.getSymbol());
 	}
+	
+	/**
+	 * Gets a Set of asset symbols listed in this Index
+	 * @return An unmodifiable Set of asset symbols
+	 */
+	public Set<String> getIndexedAssets();
 }

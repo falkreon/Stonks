@@ -3,6 +3,7 @@ package blue.endless.stonks.model;
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.JsonPrimitive;
 import blue.endless.jankson.annotation.Serializer;
+import blue.endless.jankson.api.DeserializationException;
 
 /**
  * Represents an investment in an Asset which can only be held in whole shares. The subject of this investment MUST be
@@ -16,7 +17,7 @@ public class NonFractionalInvestment extends Investment {
 	 * @param asset the Asset held
 	 * @param sharePrice the price-per-share in dollars that the Asset was purchased at
 	 */
-	public NonFractionalInvestment(Asset asset, double purchasePrice) {
+	public NonFractionalInvestment(NonFractionalAsset asset, double purchasePrice) {
 		super(asset, purchasePrice);
 		sharesHeld = 1;
 	}
@@ -75,5 +76,18 @@ public class NonFractionalInvestment extends Investment {
 	@Override
 	public String toSaveText() {
 		return super.toSaveText() + "\t" + sharesHeld;
+	}
+	
+	public static NonFractionalInvestment fromJson(JsonObject obj, NonFractionalAsset asset, double price) {
+		int shares = obj.getInt("shares", 1); //This key can be optional
+		return new NonFractionalInvestment(asset, price, shares);
+	}
+	
+	public static NonFractionalInvestment fromSaveText(String s, NonFractionalAsset asset, double price) {
+		String[] parts = s.split("\t");
+		if (parts.length < 4) throw new IllegalArgumentException("Missing share count");
+		int shares = Integer.parseInt(parts[3]);
+		
+		return new NonFractionalInvestment(asset, price, shares);
 	}
 }

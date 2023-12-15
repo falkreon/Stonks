@@ -1,10 +1,6 @@
 package blue.endless.stonks.model;
 
 public enum AssetType {
-	/**
-	 * Represents uninvested cash in a portfolio. One "share" of cash is always worth one dollar.
-	 */
-	CASH("Cash", true),
 	
 	/**
 	 * A regular stock, which can only be invested in in whole-share increments.
@@ -14,13 +10,7 @@ public enum AssetType {
 	/**
 	 * A mutual fund, where an investor can obtain fractional shares.
 	 */
-	MUTUAL_FUND("Mutual Fund", true),
-	
-	/**
-	 * Fractional ownership in a stock. This is a different financial instrument, and works more like a mutual fund in
-	 * a single stock!
-	 */
-	STOCK_SLICE("Stock Slice", true);
+	MUTUAL_FUND("Mutual Fund", true);
 	
 	
 	private final String name;
